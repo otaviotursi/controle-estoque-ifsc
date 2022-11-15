@@ -1,0 +1,115 @@
+<div class="container mt-5">
+  <!-- inicio -->
+  <div class="row">
+    <div class="text-center">
+      <div class="row">
+        <div class="col">
+          <h2>{{ titulo }}</h2>
+        </div>
+        <div class="col">
+          <div class="">
+            <button type="button "class="btn btn-light"  (click)="VoltarPagina()">Voltar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row m-5">
+    <div class="text-center">
+      <div class="row">
+        <div class="col">
+          <div class="">
+            <button type="button" class="btn btn-primary" (click)="InserirEstoque()">Inserir Estoque</button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="">
+            <button type="button" class="btn btn-warning" (click)="AlterarEstoque()">Alterar Estoque</button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="">
+            <button type="button" class="btn btn-danger" (click)="ExcluirEstoque()">Excluir Estoque</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- tabela -->
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. Mia"
+        #input
+      />
+    </mat-form-field>
+  
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataListaEstoque" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
+          <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="nome_produto">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome Produto</th>
+          <td mat-cell *matCellDef="let row">{{ row.nome_produto }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR</th>
+          <td mat-cell *matCellDef="let row">{{ row.valor | currency: 'R$' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="quantidade">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>quantidade</th>
+          <td mat-cell *matCellDef="let row">{{ row.quantidade}}</td>
+        </ng-container>
+        <ng-container matColumnDef="valor_em_estoque">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor em Estoque</th>
+          <td mat-cell *matCellDef="let row">{{ (row.valor * row.quantidade) | currency: 'R$' }}</td>
+        </ng-container>
+        
+        
+        <ng-container matColumnDef="Gerenciar">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Gerenciar</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="row ">
+              <div class="col">
+                <div class="">
+                  <button type="button" class="btn btn-warning" (click)="AlterarEstoque(row.id)">Alterar<br>Estoque</button>
+                </div>
+              </div>
+              <div class="col">
+                <div class="">
+                  <button type="button" class="btn btn-danger" (click)="ExcluirEstoque(row.id)">Excluir<br>Estoque</button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="7">
+            No data matching the filter "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+  
+      <mat-paginator
+        [pageSizeOptions]="[50, 100, 250, 500, 1000]"
+        aria-label="Selecionado pagina de lista Estoque"
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
